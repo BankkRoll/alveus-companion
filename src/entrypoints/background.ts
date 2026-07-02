@@ -152,8 +152,16 @@ async function maybePollAlveus(): Promise<void> {
 }
 
 async function maybePollAmbassadors(): Promise<void> {
-  const lastPoll = await lastAmbassadorPollStorage.getValue();
-  if (lastPoll !== null && Date.now() - lastPoll < AMBASSADORS_CACHE_MS) return;
+  const [lastPoll, cached] = await Promise.all([
+    lastAmbassadorPollStorage.getValue(),
+    ambassadorsStorage.getValue(),
+  ]);
+  if (
+    lastPoll !== null &&
+    cached.length > 0 &&
+    Date.now() - lastPoll < AMBASSADORS_CACHE_MS
+  )
+    return;
 
   try {
     await ambassadorsStorage.setValue(await fetchAmbassadors());

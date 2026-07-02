@@ -1,9 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
-import type { Ambassador } from "~/lib/alveus/ambassadors";
-import { ambassadorsStorage } from "~/lib/storage";
-
-import { useStorage } from "./hooks/useStorage";
+import {
+  AMBASSADORS_CACHE_MS,
+  type Ambassador,
+  fetchAmbassadors,
+} from "~/lib/alveus/ambassadors";
+import { ambassadorsStorage, lastAmbassadorPollStorage } from "~/lib/storage";
 
 const CLASS_LABELS: Record<string, string> = {
   mammalia: "Mammal",
@@ -92,17 +94,46 @@ const FILTERS = [
 type FilterKey = (typeof FILTERS)[number]["key"];
 
 export function AmbassadorsView() {
-  const [ambassadors] = useStorage<Ambassador[]>(ambassadorsStorage, []);
+  const [ambassadors, setAmbassadors] = useState<Ambassador[]>([]);
   const [filter, setFilter] = useState<FilterKey>("all");
   const [selected, setSelected] = useState<Ambassador | null>(null);
-  const polled = useRef(false);
 
   useEffect(() => {
-    if (ambassadors.length === 0 && !polled.current) {
-      polled.current = true;
-      chrome.runtime.sendMessage({ type: "poll:now" }).catch(() => undefined);
+    let cancelled = false;
+
+    async function load() {
+      const [cached, lastPoll] = await Promise.all([
+        ambassadorsStorage.getValue(),
+        lastAmbassadorPollStorage.getValue(),
+      ]);
+
+      const cacheValid =
+        cached.length > 0 &&
+        lastPoll !== null &&
+        Date.now() - lastPoll < AMBASSADORS_CACHE_MS;
+
+      if (cacheValid) {
+        if (!cancelled) setAmbassadors(cached);
+        return;
+      }
+
+      try {
+        const fresh = await fetchAmbassadors();
+        if (!cancelled) setAmbassadors(fresh);
+        await Promise.all([
+          ambassadorsStorage.setValue(fresh),
+          lastAmbassadorPollStorage.setValue(Date.now()),
+        ]);
+      } catch {
+        if (!cancelled && cached.length > 0) setAmbassadors(cached);
+      }
     }
-  }, [ambassadors.length]);
+
+    void load();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const visible =
     filter === "all"
