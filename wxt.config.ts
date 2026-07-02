@@ -17,7 +17,13 @@ export default defineConfig({
     host_permissions: [
       "https://gql.twitch.tv/*",
       "https://www.alveussanctuary.org/*",
+      "https://raw.githubusercontent.com/*",
+      "https://static-cdn.jtvnw.net/*",
     ],
+    content_security_policy: {
+      extension_pages:
+        "script-src 'self'; object-src 'self'; img-src 'self' https://raw.githubusercontent.com https://static-cdn.jtvnw.net data:;",
+    },
     action: {
       default_title: "Alveus Companion",
     },

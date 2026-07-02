@@ -1,6 +1,9 @@
 /**
  * Fetches ambassador, species, and enclosure data from the official
- * alveusgg/data GitHub repository and writes clean JSON to data/.
+ * alveusgg/data GitHub repository and writes enriched JSON to data/.
+ *
+ * Images are sourced directly from the alveusgg/data asset directory via
+ * raw GitHub URLs, avoiding the Next.js image proxy entirely.
  *
  * Run with: node scripts/sync-data.mjs
  * Also executed by .github/workflows/sync-data.yml on a daily schedule.
@@ -14,10 +17,13 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..");
 const DATA_DIR = join(ROOT, "data");
 
-const RAW_BASE = "https://raw.githubusercontent.com/alveusgg/data/main/src";
+const RAW_SRC = "https://raw.githubusercontent.com/alveusgg/data/main/src";
+const ASSETS_BASE = `${RAW_SRC}/assets/ambassadors`;
+const API_TREE =
+  "https://api.github.com/repos/alveusgg/data/git/trees/main?recursive=1";
 
 async function fetchRaw(path) {
-  const res = await fetch(`${RAW_BASE}/${path}`);
+  const res = await fetch(`${RAW_SRC}/${path}`);
   if (!res.ok) throw new Error(`Failed to fetch ${path}: ${res.status}`);
   return res.text();
 }
@@ -25,24 +31,18 @@ async function fetchRaw(path) {
 /**
  * Evaluates a TypeScript const object literal by extracting just the
  * object value (matching braces) and running it in a sandboxed vm context.
- *
- * @param {string} src - Full TypeScript source file text
- * @param {string} name - Name of the const to extract
  */
 function evalConst(src, name) {
-  // Find `const <name> = {` and locate the opening brace
   const declPattern = new RegExp(`\\bconst ${name}\\s*=\\s*\\{`);
   const match = declPattern.exec(src);
   if (!match) throw new Error(`const ${name} not found`);
 
-  // Walk forward to find the matching closing brace
   let depth = 0;
-  let i = match.index + match[0].length - 1; // position of opening `{`
+  let i = match.index + match[0].length - 1;
   const start = i;
 
   while (i < src.length) {
     const ch = src[i];
-    // Skip string contents so braces inside strings don't count
     if (ch === '"' || ch === "'" || ch === "`") {
       const quote = ch;
       i++;
@@ -65,14 +65,11 @@ function evalConst(src, name) {
 
   const objectLiteral = src.slice(start, i + 1);
 
-  // Strip single-line comments that appear outside of string literals.
-  // We walk char-by-char to skip comment content inside strings.
   let cleaned = "";
   let j = 0;
   while (j < objectLiteral.length) {
     const c = objectLiteral[j];
     if (c === '"' || c === "'" || c === "`") {
-      // Copy the entire string literal verbatim
       cleaned += c;
       j++;
       while (j < objectLiteral.length) {
@@ -85,7 +82,6 @@ function evalConst(src, name) {
         j++;
       }
     } else if (c === "/" && objectLiteral[j + 1] === "/") {
-      // Skip to end of line
       while (j < objectLiteral.length && objectLiteral[j] !== "\n") j++;
     } else {
       cleaned += c;
@@ -97,16 +93,42 @@ function evalConst(src, name) {
   try {
     vm.runInNewContext(`var result = ${cleaned}`, ctx);
   } catch (err) {
-    throw new Error(
-      `vm eval failed for ${name}: ${err.message}\nSnippet start: ${cleaned.slice(0, 200)}`,
-    );
+    throw new Error(`vm eval failed for ${name}: ${err.message}`);
   }
   return ctx.result;
 }
 
-/** Resolves a Next.js static media path to a full CDN URL via the image optimizer. */
-function imageUrl(path, width = 400) {
-  return `https://www.alveussanctuary.org/_next/image?url=${encodeURIComponent(path)}&w=${width}&q=75`;
+/** Converts camelCase slug to kebab-case for Alveus website URLs. */
+function toKebab(slug) {
+  return slug.replace(/([A-Z])/g, (m) => `-${m.toLowerCase()}`);
+}
+
+/**
+ * Fetches the GitHub tree and returns a map of slug → sorted image filenames.
+ * Only includes numbered images (01.jpg, 02.jpg, etc.), not badge/emote/icon.
+ */
+async function fetchImageMap() {
+  const res = await fetch(API_TREE, {
+    headers: { Accept: "application/vnd.github+json" },
+  });
+  if (!res.ok) throw new Error(`GitHub tree API failed: ${res.status}`);
+  const { tree } = await res.json();
+
+  const map = {};
+  for (const item of tree) {
+    const m = item.path.match(
+      /^src\/assets\/ambassadors\/([^/]+)\/(\d{2}\.(jpg|png))$/,
+    );
+    if (!m) continue;
+    const [, slug, filename] = m;
+    (map[slug] ??= []).push(filename);
+  }
+
+  for (const slug of Object.keys(map)) {
+    map[slug].sort();
+  }
+
+  return map;
 }
 
 async function main() {
@@ -128,48 +150,25 @@ async function main() {
     `  ${Object.keys(ambassadors).length} ambassadors, ${Object.keys(species).length} species, ${Object.keys(enclosures).length} enclosures`,
   );
 
-  // Discover the current Next.js build ID so we can hit the data routes
-  console.log("Discovering Next.js build ID…");
-  const pageRes = await fetch(
-    "https://www.alveussanctuary.org/ambassadors/georgie",
-  );
-  const pageHtml = await pageRes.text();
-  const buildIdMatch = pageHtml.match(/"buildId":"([^"]+)"/);
-  const buildId = buildIdMatch?.[1] ?? null;
-  console.log(`  buildId: ${buildId ?? "(not found)"}`);
+  console.log("Fetching image file tree from GitHub…");
+  const imageMap = await fetchImageMap();
+  console.log(`  Found images for ${Object.keys(imageMap).length} ambassadors`);
 
-  // Fetch the first real photo for each ambassador from the Next.js data route
-  const photos = {};
-  if (buildId) {
-    const slugs = Object.keys(ambassadors);
-    console.log(`Fetching photos for ${slugs.length} ambassadors…`);
-
-    const results = await Promise.allSettled(
-      slugs.map(async (slug) => {
-        const url = `https://www.alveussanctuary.org/_next/data/${buildId}/ambassadors/${slug}.json`;
-        const r = await fetch(url);
-        if (!r.ok) return;
-        const j = await r.json();
-        const firstImg = j?.pageProps?.images?.[0]?.src?.src;
-        const icon = j?.pageProps?.iconImage?.src?.src;
-        const src = firstImg ?? icon ?? null;
-        if (src) photos[slug] = imageUrl(src, 400);
-      }),
-    );
-
-    const ok = results.filter((r) => r.status === "fulfilled").length;
-    const fail = results.filter((r) => r.status === "rejected").length;
-    console.log(`  ${ok} ok, ${fail} failed`);
+  /** Returns raw GitHub URLs for all numbered images of a slug. */
+  function imagesForSlug(slug) {
+    const files = imageMap[slug] ?? [];
+    return files.map((f) => `${ASSETS_BASE}/${slug}/${f}`);
   }
 
-  // Build the combined ambassador records
   const active = Object.entries(ambassadors)
     .filter(([, a]) => a.retired === null)
     .map(([slug, a]) => {
       const sp = species[a.species] ?? null;
       const enc = enclosures[a.enclosure] ?? null;
+      const imgs = imagesForSlug(slug);
       return {
         slug,
+        slugKebab: toKebab(slug),
         name: a.name,
         alternate: a.alternate ?? [],
         commands: a.commands ?? [],
@@ -183,7 +182,8 @@ async function main() {
         clips: a.clips ?? [],
         homepage: a.homepage ?? null,
         plush: a.plush ?? null,
-        photo: photos[slug] ?? null,
+        images: imgs,
+        photo: imgs[0] ?? null,
         species: sp
           ? {
               name: sp.name,
@@ -203,13 +203,16 @@ async function main() {
     .map(([slug, a]) => {
       const sp = species[a.species] ?? null;
       const enc = enclosures[a.enclosure] ?? null;
+      const imgs = imagesForSlug(slug);
       return {
         slug,
+        slugKebab: toKebab(slug),
         name: a.name,
         retired: a.retired,
         enclosure: enc?.name ?? a.enclosure,
         mission: a.mission,
-        photo: photos[slug] ?? null,
+        images: imgs,
+        photo: imgs[0] ?? null,
         species: sp
           ? {
               name: sp.name,
@@ -231,7 +234,7 @@ async function main() {
   const outPath = join(DATA_DIR, "ambassadors.json");
   writeFileSync(outPath, JSON.stringify(output, null, 2));
   console.log(
-    `\n✓ ${active.length} active + ${retired.length} retired ambassadors → data/ambassadors.json`,
+    `\n✓ ${active.length} active + ${retired.length} retired → data/ambassadors.json`,
   );
 }
 

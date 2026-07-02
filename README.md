@@ -66,15 +66,22 @@ pnpm lint
 
 ## Ambassador data
 
-Ambassador data is not bundled — it is fetched at runtime from a generated JSON file in this repo and cached for 24 hours.
+Ambassador data is fetched at runtime from a generated JSON file in this repo and cached for 24 hours.
 
 The JSON is produced by [`scripts/sync-data.mjs`](scripts/sync-data.mjs), which:
 
 1. Fetches raw TypeScript source from [`alveusgg/data`](https://github.com/alveusgg/data) on GitHub
 2. Evaluates it in a Node `vm` sandbox to extract ambassador, species, and enclosure data
-3. Discovers the live Next.js build ID from the Alveus website
-4. Fetches the real ambassador photos from the Next.js data routes
-5. Writes [`data/ambassadors.json`](data/ambassadors.json)
+3. Queries the GitHub tree API to discover exactly which numbered images exist per ambassador
+4. Writes [`data/ambassadors.json`](data/ambassadors.json) with raw GitHub asset URLs (`https://raw.githubusercontent.com/alveusgg/data/main/src/assets/ambassadors/{slug}/01.jpg`, etc.)
+
+Images are served directly from the `alveusgg/data` repository — no Next.js proxy, no CDN dependency. The JSON includes the full `images` array per ambassador, `slugKebab` for correct Alveus website URLs, and enriched species, lifespan, clips, and plush data.
+
+To regenerate locally:
+
+```sh
+node scripts/sync-data.mjs
+```
 
 A [GitHub Actions workflow](.github/workflows/sync-data.yml) runs this daily at 06:00 UTC and commits any changes automatically, so the extension always has fresh data without requiring a new release.
 

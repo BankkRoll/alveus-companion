@@ -29,6 +29,7 @@ export const ambassadorSpeciesSchema = z.object({
 
 export const ambassadorSchema = z.object({
   slug: z.string(),
+  slugKebab: z.string(),
   name: z.string(),
   alternate: z.array(z.string()),
   commands: z.array(z.string()),
@@ -44,6 +45,7 @@ export const ambassadorSchema = z.object({
   plush: z
     .union([z.object({ link: z.string() }), z.object({ soon: z.string() })])
     .nullable(),
+  images: z.array(z.string()),
   photo: z.string().nullable(),
   species: ambassadorSpeciesSchema.nullable(),
 });

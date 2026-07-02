@@ -43,6 +43,23 @@ function iucnMeta(status: string | null | undefined) {
   return IUCN_META[base] ?? IUCN_META["NE"]!;
 }
 
+/** Returns the primary image URL for an ambassador — prefers stored image array, falls back to GitHub assets. */
+function resolvePhoto(a: Ambassador): string {
+  return (
+    a.images?.[0] ??
+    `https://raw.githubusercontent.com/alveusgg/data/main/src/assets/ambassadors/${a.slug}/01.jpg`
+  );
+}
+
+/** Calculates a human-readable age string from a partial date string. */
+function calcAge(birth: string | null): string | null {
+  if (!birth) return null;
+  const year = parseInt(birth.split("-")[0] ?? "", 10);
+  if (isNaN(year)) return null;
+  const age = new Date().getFullYear() - year;
+  return `~${age} year${age !== 1 ? "s" : ""} old`;
+}
+
 function classEmoji(cls: string | undefined): string {
   const map: Record<string, string> = {
     mammalia: "🦊",
@@ -157,7 +174,7 @@ export function AmbassadorsView() {
   }
 
   return (
-    <div className="flex flex-col">
+    <div className="@container flex flex-col">
       <div className="flex scrollbar-none gap-1.5 overflow-x-auto px-4 pt-3 pb-3">
         {FILTERS.map(({ key, label }) => (
           <button
@@ -179,7 +196,7 @@ export function AmbassadorsView() {
         {visible.length} ambassador{visible.length !== 1 ? "s" : ""}
       </p>
 
-      <div className="grid grid-cols-2 gap-2 px-4 pb-4">
+      <div className="grid grid-cols-2 gap-2 px-4 pb-4 @[400px]:grid-cols-3 @[560px]:grid-cols-4">
         {visible.map((a) => (
           <button
             key={a.slug}
@@ -187,17 +204,24 @@ export function AmbassadorsView() {
             className="group relative overflow-hidden rounded-2xl bg-white/70 ring-1 ring-alveus-green-200 transition-all hover:ring-alveus-green-400 active:scale-[0.97]"
           >
             <div className="aspect-square w-full overflow-hidden bg-alveus-green-100">
-              {a.photo ? (
-                <img
-                  src={a.photo}
-                  alt={a.name}
-                  className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-              ) : (
-                <div className="flex h-full w-full items-center justify-center text-4xl">
-                  {classEmoji(a.species?.class)}
-                </div>
-              )}
+              <img
+                src={resolvePhoto(a)}
+                alt={a.name}
+                loading="lazy"
+                decoding="async"
+                className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                onError={(e) => {
+                  const el = e.currentTarget;
+                  el.style.display = "none";
+                  el.nextElementSibling?.removeAttribute("hidden");
+                }}
+              />
+              <div
+                hidden
+                className="flex h-full w-full items-center justify-center text-4xl"
+              >
+                {classEmoji(a.species?.class)}
+              </div>
             </div>
 
             <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/80 via-black/40 to-transparent px-2.5 pt-6 pb-2.5">
@@ -236,30 +260,106 @@ function DetailPanel({
   ambassador: Ambassador;
   onBack: () => void;
 }) {
+  const allImages: string[] = a.images ?? [];
+  const [cursor, setCursor] = useState(0);
+  const [deadImgs, setDeadImgs] = useState<Set<number>>(new Set());
+
+  const images = allImages.filter((_, i) => !deadImgs.has(i));
+  const activeImg = Math.min(cursor, Math.max(0, images.length - 1));
   const iucn = iucnMeta(a.species?.iucnStatus);
+  const age = calcAge(a.birth);
+
+  function handleImgError(url: string) {
+    const idx = allImages.indexOf(url);
+    if (idx === -1) return;
+    setDeadImgs((prev) => new Set([...prev, idx]));
+  }
+
+  function prev() {
+    setCursor((i) => (i === 0 ? images.length - 1 : i - 1));
+  }
+  function next() {
+    setCursor((i) => (i === images.length - 1 ? 0 : i + 1));
+  }
+
+  const birthLabel =
+    a.species?.birth === "egg"
+      ? "Hatched"
+      : a.species?.birth === "seed"
+        ? "Sprouted"
+        : "Born";
+
+  const plushLink = a.plush && "link" in a.plush ? a.plush.link : null;
+
+  const iucnBase = (a.species?.iucnStatus ?? "NE").split("/")[0] ?? "NE";
+  const iucnTrend = (a.species?.iucnStatus ?? "").split("/")[1];
+  const iucnTrendLabel: Record<string, string> = {
+    increasing: "↑ increasing",
+    decreasing: "↓ decreasing",
+    stable: "→ stable",
+  };
 
   return (
-    <div className="flex flex-col">
+    <div className="@container flex flex-col">
+      {/* Hero gallery */}
       <div className="relative">
-        <div className="aspect-4/3 w-full overflow-hidden bg-alveus-green-200">
-          {a.photo ? (
+        <div className="relative h-52 w-full overflow-hidden bg-alveus-green-200 @[400px]:h-64">
+          {images.length > 0 ? (
             <img
-              src={a.photo}
-              alt={a.name}
+              key={images[activeImg]}
+              src={images[activeImg]}
+              alt={`${a.name} photo ${activeImg + 1}`}
               className="h-full w-full object-cover"
+              onError={() => handleImgError(images[activeImg]!)}
             />
           ) : (
             <div className="flex h-full w-full items-center justify-center text-6xl">
               {classEmoji(a.species?.class)}
             </div>
           )}
+
+          {/* Prev / next arrows */}
+          {images.length > 1 && (
+            <>
+              <button
+                onClick={prev}
+                className="absolute top-1/2 left-2 z-20 -translate-y-1/2 rounded-full bg-black/50 p-1.5 text-white backdrop-blur-sm transition-colors hover:bg-black/70"
+                aria-label="Previous photo"
+              >
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path
+                    d="M9 2L4 7l5 5"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+              <button
+                onClick={next}
+                className="absolute top-1/2 right-2 z-20 -translate-y-1/2 rounded-full bg-black/50 p-1.5 text-white backdrop-blur-sm transition-colors hover:bg-black/70"
+                aria-label="Next photo"
+              >
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path
+                    d="M5 2l5 5-5 5"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+            </>
+          )}
         </div>
 
-        <div className="absolute inset-0 bg-linear-to-t from-black/70 via-transparent to-transparent" />
+        <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/70 via-transparent to-transparent" />
 
         <button
           onClick={onBack}
-          className="absolute top-3 left-3 flex items-center gap-1.5 rounded-full bg-black/50 px-3 py-1.5 text-[12px] font-medium text-white backdrop-blur-sm transition-colors hover:bg-black/70"
+          className="absolute top-3 left-3 z-20 flex items-center gap-1.5 rounded-full bg-black/50 px-3 py-1.5 text-[12px] font-medium text-white backdrop-blur-sm transition-colors hover:bg-black/70"
         >
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
             <path
@@ -273,22 +373,69 @@ function DetailPanel({
           Back
         </button>
 
-        <div className="absolute inset-x-0 bottom-0 px-4 pb-3">
-          <h2 className="text-xl font-bold text-white">{a.name}</h2>
-          <p className="text-[13px] text-white/60">{a.species?.name}</p>
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 px-4 pb-3">
+          <div className="flex items-end justify-between gap-2">
+            <div>
+              <h2 className="text-xl leading-tight font-bold text-white">
+                {a.name}
+              </h2>
+              {a.alternate.length > 0 && (
+                <p className="text-[11px] text-white/60 italic">
+                  also: {a.alternate.join(", ")}
+                </p>
+              )}
+              {a.species && (
+                <p className="text-[12px] text-white/70">
+                  {a.species.name}
+                  {a.species.class && (
+                    <span className="ml-1.5 text-white/40">
+                      · {CLASS_LABELS[a.species.class] ?? a.species.class}
+                    </span>
+                  )}
+                </p>
+              )}
+            </div>
+            {images.length > 1 && (
+              <span className="shrink-0 pb-0.5 text-[10px] text-white/50">
+                {activeImg + 1} / {images.length}
+              </span>
+            )}
+          </div>
         </div>
       </div>
 
+      {/* Thumbnail strip */}
+      {images.length > 1 && (
+        <div className="bg-alveus-green-950 flex scrollbar-none gap-1.5 overflow-x-auto px-3 py-2">
+          {images.map((url, i) => (
+            <button
+              key={url}
+              onClick={() => setCursor(i)}
+              className={`size-10 shrink-0 overflow-hidden rounded-lg ring-2 transition-all ${activeImg === i ? "ring-white" : "opacity-50 ring-transparent hover:opacity-80"}`}
+            >
+              <img
+                src={url}
+                alt=""
+                loading="lazy"
+                className="h-full w-full object-cover"
+              />
+            </button>
+          ))}
+        </div>
+      )}
+
       <div className="flex flex-col gap-4 px-4 pt-4 pb-6">
-        <div className="flex flex-col gap-2">
+        {/* Story + mission */}
+        <div className="flex flex-col gap-1.5">
           <p className="text-[12px] leading-relaxed text-alveus-green-500">
             {a.story}
           </p>
-          <p className="text-[12px] leading-relaxed text-alveus-green-800">
+          <p className="text-[12px] leading-relaxed font-medium text-alveus-green-800">
             {a.mission}
           </p>
         </div>
 
+        {/* Stats table */}
         <div className="overflow-hidden rounded-2xl bg-white/70 ring-1 ring-alveus-green-200">
           {a.species && (
             <>
@@ -297,29 +444,38 @@ function DetailPanel({
                 value={
                   <span>
                     {a.species.name}{" "}
-                    <span className="text-alveus-green-400 italic">
+                    <em className="text-alveus-green-400 not-italic">
                       {a.species.scientificName}
-                    </span>
+                    </em>
                   </span>
                 }
               />
               <StatRow
                 label="Conservation"
                 value={
-                  <span
-                    className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${iucn.color}`}
-                  >
-                    {iucn.label}
+                  <span className="flex flex-wrap items-center gap-1.5">
+                    <span
+                      className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${iucn.color}`}
+                    >
+                      {iucnBase} — {iucn.label}
+                    </span>
+                    {iucnTrend && iucnTrendLabel[iucnTrend] && (
+                      <span className="text-[10px] text-alveus-green-400">
+                        {iucnTrendLabel[iucnTrend]}
+                      </span>
+                    )}
                   </span>
                 }
               />
-              <StatRow label="Native To" value={a.species.native} />
+              {a.species.native && (
+                <StatRow label="Native To" value={a.species.native} />
+              )}
               {(a.species.lifespan?.wild != null ||
                 a.species.lifespan?.captivity != null) && (
                 <StatRow
                   label="Lifespan"
                   value={
-                    <span className="flex gap-3">
+                    <span className="flex flex-wrap gap-3">
                       {a.species.lifespan.wild != null && (
                         <span>
                           <span className="text-alveus-green-400">Wild </span>
@@ -342,14 +498,17 @@ function DetailPanel({
           )}
           {a.birth && (
             <StatRow
-              label={
-                a.species?.birth === "egg"
-                  ? "Hatched"
-                  : a.species?.birth === "seed"
-                    ? "Sprouted"
-                    : "Born"
+              label={birthLabel}
+              value={
+                <span className="flex flex-col">
+                  <span>{formatDate(a.birth) ?? a.birth}</span>
+                  {age && (
+                    <span className="text-[10px] text-alveus-green-400">
+                      {age}
+                    </span>
+                  )}
+                </span>
               }
-              value={formatDate(a.birth) ?? a.birth}
             />
           )}
           {a.sex && <StatRow label="Sex" value={a.sex} />}
@@ -362,17 +521,24 @@ function DetailPanel({
           <StatRow label="Enclosure" value={a.enclosure} last />
         </div>
 
+        {/* Fun fact */}
         {a.fact && (
           <div className="rounded-2xl bg-white/70 px-3.5 py-3 ring-1 ring-alveus-green-200">
             <p className="mb-2 text-[10px] font-bold tracking-widest text-alveus-green-600 uppercase">
               Did you know?
             </p>
-            <p className="text-[12px] leading-relaxed text-alveus-green-700">
-              {a.fact.split("\n\n")[0]}
-            </p>
+            {a.fact.split("\n\n").map((para, i) => (
+              <p
+                key={i}
+                className={`text-[12px] leading-relaxed text-alveus-green-700 ${i > 0 ? "mt-2" : ""}`}
+              >
+                {para}
+              </p>
+            ))}
           </div>
         )}
 
+        {/* Clips */}
         {a.clips.length > 0 && (
           <div>
             <p className="mb-2 text-[10px] font-bold tracking-widest text-alveus-green-600 uppercase">
@@ -406,22 +572,43 @@ function DetailPanel({
           </div>
         )}
 
-        <a
-          href={`https://www.alveussanctuary.org/ambassadors/${a.slug}`}
-          target="_blank"
-          rel="noreferrer"
-          className="flex items-center justify-center gap-2 rounded-2xl bg-alveus-green-700 py-3 text-[13px] font-semibold text-white transition-colors hover:bg-alveus-green-600"
-        >
-          View on alveussanctuary.org
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-            <path
-              d="M4 2h7v7M11 2L2 11"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-            />
-          </svg>
-        </a>
+        {/* CTA row: plush + website */}
+        <div className="flex flex-col gap-2">
+          {plushLink && (
+            <a
+              href={plushLink}
+              target="_blank"
+              rel="noreferrer"
+              className="flex items-center justify-center gap-2 rounded-2xl bg-alveus-green-100 py-2.5 text-[13px] font-semibold text-alveus-green-800 ring-1 ring-alveus-green-300 transition-colors hover:bg-alveus-green-200"
+            >
+              🧸 Get {a.name} Plush
+              <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
+                <path
+                  d="M3 1.5h6v6M9 1.5L1.5 9"
+                  stroke="currentColor"
+                  strokeWidth="1.4"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </a>
+          )}
+          <a
+            href={`https://www.alveussanctuary.org/ambassadors/${a.slugKebab}`}
+            target="_blank"
+            rel="noreferrer"
+            className="flex items-center justify-center gap-2 rounded-2xl bg-alveus-green-700 py-3 text-[13px] font-semibold text-white transition-colors hover:bg-alveus-green-600"
+          >
+            View on alveussanctuary.org
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+              <path
+                d="M4 2h7v7M11 2L2 11"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+              />
+            </svg>
+          </a>
+        </div>
       </div>
     </div>
   );
@@ -440,7 +627,7 @@ function StatRow({
     <div
       className={`flex items-start gap-3 px-3.5 py-2.5 ${!last ? "border-b border-alveus-green-100" : ""}`}
     >
-      <span className="w-24 shrink-0 text-[11px] font-semibold text-alveus-green-400">
+      <span className="w-24 shrink-0 pt-0.5 text-[11px] font-semibold text-alveus-green-400">
         {label}
       </span>
       <span className="text-[12px] text-alveus-green-800">{value}</span>
