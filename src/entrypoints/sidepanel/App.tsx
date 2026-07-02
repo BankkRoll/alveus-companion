@@ -16,7 +16,7 @@ export function App() {
     <div className="flex h-full flex-col bg-alveus-green-900 text-white antialiased">
       <Header />
 
-      <main className="min-h-0 flex-1 overflow-y-auto bg-alveus-tan-100 topo-bg text-alveus-green-900">
+      <main className="relative min-h-0 flex-1 overflow-y-auto bg-alveus-tan-100 topo-bg text-alveus-green-900">
         {tab === "live" && <LiveView />}
         {tab === "schedule" && <ScheduleView />}
         {tab === "ambassadors" && <AmbassadorsView />}

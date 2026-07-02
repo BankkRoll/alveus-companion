@@ -4,6 +4,8 @@ A Chrome browser extension that keeps you connected to [Alveus Sanctuary](https:
 
 ![Alveus Companion](public/icon.svg)
 
+<img width="468" height="168" alt="image" src="https://github.com/user-attachments/assets/39f8c688-acbb-4812-af5d-13793ea1d802" />
+
 ## Features
 
 - **Live** — Real-time Twitch stream status for AlveusSanctuary and Maya. Badge on the extension icon when someone is live. Desktop notifications when streams go live or change title.

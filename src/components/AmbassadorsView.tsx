@@ -126,7 +126,8 @@ export function AmbassadorsView() {
         ]);
         const cached = rawCached ?? [];
 
-        const cacheHasImages = cached.length > 0 && (cached[0]?.images?.length ?? 0) > 0;
+        const cacheHasImages =
+          cached.length > 0 && (cached[0]?.images?.length ?? 0) > 0;
         const cacheValid =
           cacheHasImages &&
           lastPoll !== null &&
@@ -301,33 +302,33 @@ function DetailPanel({
   };
 
   return (
-    <div className="@container flex flex-col">
-      {/* Hero gallery */}
-      <div className="relative">
-        <div className="relative h-52 w-full overflow-hidden bg-alveus-green-200 @[400px]:h-64">
+    <div className="flex flex-col min-[780px]:absolute min-[780px]:inset-0 min-[780px]:flex-row">
+      {/* Left column — sticky in narrow, fixed in wide */}
+      <div className="sticky top-0 z-10 flex flex-col bg-alveus-green-900 min-[780px]:static min-[780px]:h-full min-[780px]:min-h-0 min-[780px]:w-[55%] min-[780px]:shrink-0 min-[780px]:overflow-hidden">
+        {/* Hero */}
+        <div className="relative h-56 w-full overflow-hidden bg-alveus-green-900 min-[400px]:h-64 min-[780px]:h-0 min-[780px]:min-h-0 min-[780px]:flex-1">
           {images.length > 0 ? (
             <img
-              key={images[activeImg]}
               src={images[activeImg]}
               alt={`${a.name} photo ${activeImg + 1}`}
               className="h-full w-full object-cover"
               onError={() => handleImgError(images[activeImg]!)}
             />
           ) : (
-            <div className="flex h-full w-full items-center justify-center text-6xl">
+            <div className="flex h-full w-full items-center justify-center text-7xl">
               {classEmoji(a.species?.class)}
             </div>
           )}
 
-          {/* Prev / next arrows */}
+          {/* Arrows */}
           {images.length > 1 && (
             <>
               <button
                 onClick={prev}
-                className="absolute top-1/2 left-2 z-20 -translate-y-1/2 rounded-full bg-black/50 p-1.5 text-white backdrop-blur-sm transition-colors hover:bg-black/70"
+                className="absolute top-1/2 left-2 z-20 -translate-y-1/2 rounded-full bg-black/50 p-2 text-white backdrop-blur-sm transition-colors hover:bg-black/70"
                 aria-label="Previous photo"
               >
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <svg width="16" height="16" viewBox="0 0 14 14" fill="none">
                   <path
                     d="M9 2L4 7l5 5"
                     stroke="currentColor"
@@ -339,10 +340,10 @@ function DetailPanel({
               </button>
               <button
                 onClick={next}
-                className="absolute top-1/2 right-2 z-20 -translate-y-1/2 rounded-full bg-black/50 p-1.5 text-white backdrop-blur-sm transition-colors hover:bg-black/70"
+                className="absolute top-1/2 right-2 z-20 -translate-y-1/2 rounded-full bg-black/50 p-2 text-white backdrop-blur-sm transition-colors hover:bg-black/70"
                 aria-label="Next photo"
               >
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <svg width="16" height="16" viewBox="0 0 14 14" fill="none">
                   <path
                     d="M5 2l5 5-5 5"
                     stroke="currentColor"
@@ -354,78 +355,80 @@ function DetailPanel({
               </button>
             </>
           )}
-        </div>
 
-        <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/70 via-transparent to-transparent" />
+          {/* Gradient + name overlay */}
+          <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/80 via-black/10 to-transparent" />
 
-        <button
-          onClick={onBack}
-          className="absolute top-3 left-3 z-20 flex items-center gap-1.5 rounded-full bg-black/50 px-3 py-1.5 text-[12px] font-medium text-white backdrop-blur-sm transition-colors hover:bg-black/70"
-        >
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path
-              d="M9 2L4 7l5 5"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-          Back
-        </button>
+          <button
+            onClick={onBack}
+            className="absolute top-3 left-3 z-20 flex items-center gap-1.5 rounded-full bg-black/50 px-3 py-1.5 text-[12px] font-medium text-white backdrop-blur-sm transition-colors hover:bg-black/70"
+          >
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path
+                d="M9 2L4 7l5 5"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            Back
+          </button>
 
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 px-4 pb-3">
-          <div className="flex items-end justify-between gap-2">
-            <div>
-              <h2 className="text-xl leading-tight font-bold text-white">
-                {a.name}
-              </h2>
-              {a.alternate.length > 0 && (
-                <p className="text-[11px] text-white/60 italic">
-                  also: {a.alternate.join(", ")}
-                </p>
-              )}
-              {a.species && (
-                <p className="text-[12px] text-white/70">
-                  {a.species.name}
-                  {a.species.class && (
-                    <span className="ml-1.5 text-white/40">
-                      · {CLASS_LABELS[a.species.class] ?? a.species.class}
-                    </span>
-                  )}
-                </p>
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 px-4 pb-4">
+            <div className="flex items-end justify-between gap-2">
+              <div>
+                <h2 className="text-2xl leading-tight font-bold text-white min-[780px]:text-3xl">
+                  {a.name}
+                </h2>
+                {a.alternate.length > 0 && (
+                  <p className="text-[11px] text-white/60 italic">
+                    also: {a.alternate.join(", ")}
+                  </p>
+                )}
+                {a.species && (
+                  <p className="text-[13px] text-white/70">
+                    {a.species.name}
+                    {a.species.class && (
+                      <span className="ml-1.5 text-white/40">
+                        · {CLASS_LABELS[a.species.class] ?? a.species.class}
+                      </span>
+                    )}
+                  </p>
+                )}
+              </div>
+              {images.length > 1 && (
+                <span className="shrink-0 pb-0.5 text-[10px] text-white/50">
+                  {activeImg + 1} / {images.length}
+                </span>
               )}
             </div>
-            {images.length > 1 && (
-              <span className="shrink-0 pb-0.5 text-[10px] text-white/50">
-                {activeImg + 1} / {images.length}
-              </span>
-            )}
           </div>
         </div>
+
+        {/* Thumbnail strip */}
+        {images.length > 1 && (
+          <div className="flex shrink-0 scrollbar-none gap-1.5 overflow-x-auto bg-black/80 px-3 py-2 min-[780px]:flex-wrap min-[780px]:overflow-x-hidden">
+            {images.map((url, i) => (
+              <button
+                key={url}
+                onClick={() => setCursor(i)}
+                className={`size-12 shrink-0 overflow-hidden rounded-lg ring-2 transition-all min-[780px]:size-14 ${activeImg === i ? "ring-white" : "opacity-50 ring-transparent hover:opacity-80"}`}
+              >
+                <img
+                  src={url}
+                  alt=""
+                  loading="lazy"
+                  className="h-full w-full object-cover"
+                />
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
-      {/* Thumbnail strip */}
-      {images.length > 1 && (
-        <div className="bg-alveus-green-950 flex scrollbar-none gap-1.5 overflow-x-auto px-3 py-2">
-          {images.map((url, i) => (
-            <button
-              key={url}
-              onClick={() => setCursor(i)}
-              className={`size-10 shrink-0 overflow-hidden rounded-lg ring-2 transition-all ${activeImg === i ? "ring-white" : "opacity-50 ring-transparent hover:opacity-80"}`}
-            >
-              <img
-                src={url}
-                alt=""
-                loading="lazy"
-                className="h-full w-full object-cover"
-              />
-            </button>
-          ))}
-        </div>
-      )}
-
-      <div className="flex flex-col gap-4 px-4 pt-4 pb-6">
+      {/* Right column — scrollable in wide mode */}
+      <div className="flex flex-col gap-4 px-4 pt-4 pb-6 *:shrink-0 min-[780px]:min-h-0 min-[780px]:flex-1 min-[780px]:overflow-y-auto min-[780px]:overscroll-contain">
         {/* Story + mission */}
         <div className="flex flex-col gap-1.5">
           <p className="text-[12px] leading-relaxed text-alveus-green-500">
