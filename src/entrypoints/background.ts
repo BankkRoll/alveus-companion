@@ -151,6 +151,8 @@ async function maybePollAlveus(): Promise<void> {
   }
 }
 
+const IMAGE_CACHE = "alveus-images-v1";
+
 async function maybePollAmbassadors(): Promise<void> {
   const [lastPoll, cached] = await Promise.all([
     lastAmbassadorPollStorage.getValue(),
@@ -164,11 +166,24 @@ async function maybePollAmbassadors(): Promise<void> {
     return;
 
   try {
-    await ambassadorsStorage.setValue(await fetchAmbassadors());
+    const ambassadors = await fetchAmbassadors();
+    await ambassadorsStorage.setValue(ambassadors);
     await lastAmbassadorPollStorage.setValue(Date.now());
+    void precacheImages(ambassadors.flatMap((a) => a.images ?? []));
   } catch {
     // Silently fail — cached data remains available
   }
+}
+
+async function precacheImages(urls: string[]): Promise<void> {
+  const cache = await caches.open(IMAGE_CACHE);
+  await Promise.allSettled(
+    urls.map(async (url) => {
+      if (await cache.match(url)) return;
+      const res = await fetch(url);
+      if (res.ok) await cache.put(url, res);
+    }),
+  );
 }
 
 /**

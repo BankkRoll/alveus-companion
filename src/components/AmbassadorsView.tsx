@@ -126,8 +126,9 @@ export function AmbassadorsView() {
         ]);
         const cached = rawCached ?? [];
 
+        const cacheHasImages = cached.length > 0 && (cached[0]?.images?.length ?? 0) > 0;
         const cacheValid =
-          cached.length > 0 &&
+          cacheHasImages &&
           lastPoll !== null &&
           Date.now() - lastPoll < AMBASSADORS_CACHE_MS;
 
