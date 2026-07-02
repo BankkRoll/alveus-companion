@@ -1,8 +1,8 @@
 import { z } from "zod";
 
-/** Raw GitHub URL for the generated ambassador JSON in this repo. */
+/** Raw GitHub URL for the vendored ambassador JSON in this repo. */
 export const AMBASSADORS_JSON_URL =
-  "https://raw.githubusercontent.com/BankkRoll/alveus-companion/main/data/ambassadors.json";
+  "https://raw.githubusercontent.com/BankkRoll/alveus-companion/refs/heads/main/data/ambassadors.json";
 
 /** Cache duration for fetched ambassador data. */
 export const AMBASSADORS_CACHE_MS = 24 * 60 * 60 * 1000;
@@ -48,11 +48,16 @@ export const ambassadorSchema = z.object({
   species: ambassadorSpeciesSchema.nullable(),
 });
 
+const retiredSchema = ambassadorSchema
+  .partial()
+  .extend({ species: ambassadorSpeciesSchema.partial().nullable().optional() })
+  .catchall(z.unknown());
+
 const ambassadorsResponseSchema = z.object({
   generatedAt: z.string(),
   source: z.string(),
   ambassadors: z.array(ambassadorSchema),
-  retired: z.array(ambassadorSchema.partial()).optional(),
+  retired: z.array(retiredSchema).optional(),
 });
 
 export type Ambassador = z.infer<typeof ambassadorSchema>;
@@ -64,5 +69,11 @@ export async function fetchAmbassadors(): Promise<Ambassador[]> {
   const response = await fetch(AMBASSADORS_JSON_URL);
   if (!response.ok)
     throw new Error(`Ambassador fetch failed: ${response.status}`);
-  return ambassadorsResponseSchema.parse(await response.json()).ambassadors;
+  const json = await response.json();
+  const result = ambassadorsResponseSchema.safeParse(json);
+  if (result.success) return result.data.ambassadors;
+  // Fall back to raw array if schema validation fails due to upstream shape changes
+  const raw = (json as { ambassadors?: unknown }).ambassadors;
+  if (Array.isArray(raw)) return raw as Ambassador[];
+  throw new Error("Unexpected ambassador JSON shape");
 }

@@ -102,22 +102,23 @@ export function AmbassadorsView() {
     let cancelled = false;
 
     async function load() {
-      const [cached, lastPoll] = await Promise.all([
-        ambassadorsStorage.getValue(),
-        lastAmbassadorPollStorage.getValue(),
-      ]);
-
-      const cacheValid =
-        cached.length > 0 &&
-        lastPoll !== null &&
-        Date.now() - lastPoll < AMBASSADORS_CACHE_MS;
-
-      if (cacheValid) {
-        if (!cancelled) setAmbassadors(cached);
-        return;
-      }
-
       try {
+        const [rawCached, lastPoll] = await Promise.all([
+          ambassadorsStorage.getValue(),
+          lastAmbassadorPollStorage.getValue(),
+        ]);
+        const cached = rawCached ?? [];
+
+        const cacheValid =
+          cached.length > 0 &&
+          lastPoll !== null &&
+          Date.now() - lastPoll < AMBASSADORS_CACHE_MS;
+
+        if (cacheValid) {
+          if (!cancelled) setAmbassadors(cached);
+          return;
+        }
+
         const fresh = await fetchAmbassadors();
         if (!cancelled) setAmbassadors(fresh);
         await Promise.all([
@@ -125,7 +126,7 @@ export function AmbassadorsView() {
           lastAmbassadorPollStorage.setValue(Date.now()),
         ]);
       } catch {
-        if (!cancelled && cached.length > 0) setAmbassadors(cached);
+        // network or storage failure — stay on loading screen rather than crash
       }
     }
 
