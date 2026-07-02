@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import type { Ambassador } from "~/lib/alveus/ambassadors";
 import { ambassadorsStorage } from "~/lib/storage";
@@ -95,6 +95,14 @@ export function AmbassadorsView() {
   const [ambassadors] = useStorage<Ambassador[]>(ambassadorsStorage, []);
   const [filter, setFilter] = useState<FilterKey>("all");
   const [selected, setSelected] = useState<Ambassador | null>(null);
+  const polled = useRef(false);
+
+  useEffect(() => {
+    if (ambassadors.length === 0 && !polled.current) {
+      polled.current = true;
+      chrome.runtime.sendMessage({ type: "poll:now" }).catch(() => undefined);
+    }
+  }, [ambassadors.length]);
 
   const visible =
     filter === "all"
