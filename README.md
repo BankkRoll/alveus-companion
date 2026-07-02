@@ -4,7 +4,7 @@ A Chrome browser extension that keeps you connected to [Alveus Sanctuary](https:
 
 ![Alveus Companion](public/icon.svg)
 
-<img width="468" height="168" alt="image" src="https://github.com/user-attachments/assets/39f8c688-acbb-4812-af5d-13793ea1d802" />
+<img width="415" height="519" alt="image" src="https://github.com/user-attachments/assets/6da358f1-afe4-44bf-b367-3a3cd40074a7" />
 
 ## Features
 
