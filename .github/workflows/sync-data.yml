@@ -1,0 +1,35 @@
+name: Sync Ambassador Data
+
+on:
+  schedule:
+    # Runs daily at 06:00 UTC — after Alveus typically announces new arrivals
+    - cron: "0 6 * * *"
+  workflow_dispatch: # Allow manual trigger from GitHub UI
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Sync ambassador data
+        run: node scripts/sync-data.mjs
+
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/ambassadors.json
+          if git diff --cached --quiet; then
+            echo "No changes to ambassador data."
+          else
+            git commit -m "chore: sync ambassador data from alveusgg/data"
+            git push
+          fi

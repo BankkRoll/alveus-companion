@@ -1,0 +1,30 @@
+@import "tailwindcss";
+@import "./alveus-data.css";
+
+@theme {
+  --breakpoint-xs: 20rem;
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@utility topo-bg {
+  background-image: url("../assets/topo.svg");
+  background-repeat: repeat;
+  background-size: 400px 400px;
+}
