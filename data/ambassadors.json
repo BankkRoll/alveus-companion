@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-02T17:33:41.316Z",
+  "generatedAt": "2026-07-03T09:22:02.723Z",
   "source": "https://github.com/alveusgg/data",
   "ambassadors": [
     {
@@ -7,7 +7,9 @@
       "slugKebab": "georgie",
       "name": "Georgie",
       "alternate": [],
-      "commands": ["georgie"],
+      "commands": [
+        "georgie"
+      ],
       "sex": "Male",
       "birth": "2021",
       "arrival": "2021-04",
@@ -69,8 +71,13 @@
       "slug": "pushPop",
       "slugKebab": "push-pop",
       "name": "Push Pop",
-      "alternate": ["Poppy"],
-      "commands": ["pushpop", "poppy"],
+      "alternate": [
+        "Poppy"
+      ],
+      "commands": [
+        "pushpop",
+        "poppy"
+      ],
       "sex": "Female",
       "birth": "2019",
       "arrival": "2024-02",
@@ -115,7 +122,9 @@
       "slugKebab": "stompy",
       "name": "Stompy",
       "alternate": [],
-      "commands": ["stompy"],
+      "commands": [
+        "stompy"
+      ],
       "sex": "Male",
       "birth": "2021-02-14",
       "arrival": "2021-06-01",
@@ -174,8 +183,13 @@
       "slug": "nolie",
       "slugKebab": "nolie",
       "name": "Nolie",
-      "alternate": ["Nolan's Mom"],
-      "commands": ["nolie", "nolansmom"],
+      "alternate": [
+        "Nolan's Mom"
+      ],
+      "commands": [
+        "nolie",
+        "nolansmom"
+      ],
       "sex": "Female",
       "birth": "2020",
       "arrival": "2025-09-12",
@@ -215,7 +229,9 @@
       "slugKebab": "tico",
       "name": "Tico",
       "alternate": [],
-      "commands": ["tico"],
+      "commands": [
+        "tico"
+      ],
       "sex": "Female",
       "birth": null,
       "arrival": "2021-04",
@@ -258,8 +274,13 @@
       "slug": "miley",
       "slugKebab": "miley",
       "name": "Miley",
-      "alternate": ["Miele"],
-      "commands": ["miley", "miele"],
+      "alternate": [
+        "Miele"
+      ],
+      "commands": [
+        "miley",
+        "miele"
+      ],
       "sex": "Female",
       "birth": null,
       "arrival": "2021-04",
@@ -303,7 +324,9 @@
       "slugKebab": "mia",
       "name": "Mia",
       "alternate": [],
-      "commands": ["mia"],
+      "commands": [
+        "mia"
+      ],
       "sex": "Female",
       "birth": null,
       "arrival": "2021-04",
@@ -361,7 +384,9 @@
       "slugKebab": "tipsy",
       "name": "Tipsy",
       "alternate": [],
-      "commands": ["tipsy"],
+      "commands": [
+        "tipsy"
+      ],
       "sex": "Male",
       "birth": "1995",
       "arrival": "2026-03-10",
@@ -395,7 +420,9 @@
       "slugKebab": "abbott",
       "name": "Abbott",
       "alternate": [],
-      "commands": ["abbott"],
+      "commands": [
+        "abbott"
+      ],
       "sex": "Male",
       "birth": "2020-05",
       "arrival": "2021-08",
@@ -435,7 +462,9 @@
       "slugKebab": "coconut",
       "name": "Coconut",
       "alternate": [],
-      "commands": ["coconut"],
+      "commands": [
+        "coconut"
+      ],
       "sex": "Male",
       "birth": "2021",
       "arrival": "2021-08",
@@ -469,7 +498,9 @@
       "slugKebab": "oliver",
       "name": "Oliver",
       "alternate": [],
-      "commands": ["oliver"],
+      "commands": [
+        "oliver"
+      ],
       "sex": "Male",
       "birth": "2021",
       "arrival": "2021-06",
@@ -504,7 +535,9 @@
       "slugKebab": "nugget",
       "name": "Nugget",
       "alternate": [],
-      "commands": ["nugget"],
+      "commands": [
+        "nugget"
+      ],
       "sex": "Female",
       "birth": "2019",
       "arrival": "2021-04",
@@ -544,7 +577,9 @@
       "slugKebab": "henrique",
       "name": "Henrique",
       "alternate": [],
-      "commands": ["henrique"],
+      "commands": [
+        "henrique"
+      ],
       "sex": "Female",
       "birth": "2020",
       "arrival": "2022-08",
@@ -582,7 +617,9 @@
       "slugKebab": "betty",
       "name": "Betty",
       "alternate": [],
-      "commands": ["betty"],
+      "commands": [
+        "betty"
+      ],
       "sex": "Female",
       "birth": null,
       "arrival": "2024-09",
@@ -618,7 +655,9 @@
       "slugKebab": "polly",
       "name": "Polly",
       "alternate": [],
-      "commands": ["polly"],
+      "commands": [
+        "polly"
+      ],
       "sex": "Female",
       "birth": null,
       "arrival": "2023-11",
@@ -654,7 +693,9 @@
       "slugKebab": "winnie-the-moo",
       "name": "Winnie (The Moo)",
       "alternate": [],
-      "commands": ["winnie"],
+      "commands": [
+        "winnie"
+      ],
       "sex": "Female",
       "birth": "2022-03-22",
       "arrival": "2022-04",
@@ -707,7 +748,9 @@
       "slugKebab": "serrano",
       "name": "Serrano",
       "alternate": [],
-      "commands": ["serrano"],
+      "commands": [
+        "serrano"
+      ],
       "sex": "Male",
       "birth": null,
       "arrival": "2021-05",
@@ -760,7 +803,10 @@
       "slugKebab": "jalapeno",
       "name": "Jalapeño",
       "alternate": [],
-      "commands": ["jalapeno", "jalapeño"],
+      "commands": [
+        "jalapeno",
+        "jalapeño"
+      ],
       "sex": "Male",
       "birth": null,
       "arrival": "2021-05",
@@ -806,7 +852,9 @@
       "slugKebab": "fenn",
       "name": "Fenn",
       "alternate": [],
-      "commands": ["fenn"],
+      "commands": [
+        "fenn"
+      ],
       "sex": "Male",
       "birth": "2020",
       "arrival": "2022-11",
@@ -860,7 +908,9 @@
       "slugKebab": "reed",
       "name": "Reed",
       "alternate": [],
-      "commands": ["reed"],
+      "commands": [
+        "reed"
+      ],
       "sex": "Male",
       "birth": "2019",
       "arrival": "2022-11",
@@ -910,7 +960,9 @@
       "slugKebab": "awa",
       "name": "Awa",
       "alternate": [],
-      "commands": ["awa"],
+      "commands": [
+        "awa"
+      ],
       "sex": "Female",
       "birth": "2014",
       "arrival": "2024-05-04",
@@ -947,7 +999,10 @@
       "slugKebab": "akela",
       "name": "Akela",
       "alternate": [],
-      "commands": ["akela", "akila"],
+      "commands": [
+        "akela",
+        "akila"
+      ],
       "sex": "Male",
       "birth": "2018-01-26",
       "arrival": "2025-01-27",
@@ -986,7 +1041,9 @@
       "slugKebab": "snork",
       "name": "Snork",
       "alternate": [],
-      "commands": ["snork"],
+      "commands": [
+        "snork"
+      ],
       "sex": "Female",
       "birth": "2021",
       "arrival": "2021-04",
@@ -1025,7 +1082,9 @@
       "slugKebab": "moomin",
       "name": "Moomin",
       "alternate": [],
-      "commands": ["moomin"],
+      "commands": [
+        "moomin"
+      ],
       "sex": "Male",
       "birth": "2017",
       "arrival": "2021-04",
@@ -1067,7 +1126,9 @@
       "slugKebab": "momo",
       "name": "Momo",
       "alternate": [],
-      "commands": ["momo"],
+      "commands": [
+        "momo"
+      ],
       "sex": "Male",
       "birth": "2018",
       "arrival": "2022-12",
@@ -1107,7 +1168,9 @@
       "slugKebab": "appa",
       "name": "Appa",
       "alternate": [],
-      "commands": ["appa"],
+      "commands": [
+        "appa"
+      ],
       "sex": "Male",
       "birth": "2020",
       "arrival": "2022-12",
@@ -1151,7 +1214,9 @@
       "slugKebab": "noodle",
       "name": "Noodle",
       "alternate": [],
-      "commands": ["noodle"],
+      "commands": [
+        "noodle"
+      ],
       "sex": "Female",
       "birth": null,
       "arrival": "2021-04",
@@ -1196,7 +1261,9 @@
       "slugKebab": "patchy",
       "name": "Patchy",
       "alternate": [],
-      "commands": ["patchy"],
+      "commands": [
+        "patchy"
+      ],
       "sex": "Female",
       "birth": "2021-08-15",
       "arrival": "2021-10",
@@ -1232,8 +1299,13 @@
       "slug": "hankMrMctrain",
       "slugKebab": "hank-mr-mctrain",
       "name": "Hank Mr. McTrain",
-      "alternate": ["Hank The Tank Choo Choo Mr. McTrain", "Mr. Conductor Man"],
-      "commands": ["hank"],
+      "alternate": [
+        "Hank The Tank Choo Choo Mr. McTrain",
+        "Mr. Conductor Man"
+      ],
+      "commands": [
+        "hank"
+      ],
       "sex": "Male",
       "birth": "2022",
       "arrival": "2022-01",
@@ -1278,7 +1350,10 @@
       "slugKebab": "barbara-baked-bean",
       "name": "Barbara / Baked Bean",
       "alternate": [],
-      "commands": ["barbara", "bakedbean"],
+      "commands": [
+        "barbara",
+        "bakedbean"
+      ],
       "sex": null,
       "birth": "2022",
       "arrival": "2022-01",
@@ -1313,7 +1388,9 @@
       "slugKebab": "marty",
       "name": "Marty",
       "alternate": [],
-      "commands": ["marty"],
+      "commands": [
+        "marty"
+      ],
       "sex": null,
       "birth": "2022",
       "arrival": "2022-01",
@@ -1350,8 +1427,13 @@
       "slug": "bb",
       "slugKebab": "bb",
       "name": "BB",
-      "alternate": ["Bonus Bug"],
-      "commands": ["bb", "bonusbug"],
+      "alternate": [
+        "Bonus Bug"
+      ],
+      "commands": [
+        "bb",
+        "bonusbug"
+      ],
       "sex": null,
       "birth": "2022",
       "arrival": "2022-01",
@@ -1387,7 +1469,9 @@
       "slugKebab": "tortellini",
       "name": "Tortellini",
       "alternate": [],
-      "commands": ["tortellini"],
+      "commands": [
+        "tortellini"
+      ],
       "sex": "Male",
       "birth": "2022-10-01",
       "arrival": "2022-11",
@@ -1426,7 +1510,9 @@
       "slugKebab": "puppy",
       "name": "Puppy",
       "alternate": [],
-      "commands": ["puppy"],
+      "commands": [
+        "puppy"
+      ],
       "sex": "Male",
       "birth": "2022-10-01",
       "arrival": "2022-11",
@@ -1464,7 +1550,9 @@
       "slugKebab": "eva",
       "name": "Eva",
       "alternate": [],
-      "commands": ["eva"],
+      "commands": [
+        "eva"
+      ],
       "sex": "Female",
       "birth": "2022",
       "arrival": "2025-06-16",
@@ -1503,7 +1591,9 @@
       "slugKebab": "kiwi",
       "name": "Kiwi",
       "alternate": [],
-      "commands": ["kiwi"],
+      "commands": [
+        "kiwi"
+      ],
       "sex": "Female",
       "birth": "2022",
       "arrival": "2025-06-16",
@@ -1542,7 +1632,10 @@
       "slugKebab": "toaster-strudel",
       "name": "Toaster Strudel",
       "alternate": [],
-      "commands": ["toast", "toaster"],
+      "commands": [
+        "toast",
+        "toaster"
+      ],
       "sex": null,
       "birth": "2022-07-04",
       "arrival": "2022-11",
@@ -1579,7 +1672,9 @@
       "slugKebab": "kasi",
       "name": "Kasi",
       "alternate": [],
-      "commands": ["kasi"],
+      "commands": [
+        "kasi"
+      ],
       "sex": "Male",
       "birth": "2024",
       "arrival": "2026-04-01",
@@ -1612,8 +1707,13 @@
       "slug": "pitchjars",
       "slugKebab": "pitchjars",
       "name": "PitchJars",
-      "alternate": ["Pitchy"],
-      "commands": ["pitchjars", "pitchy"],
+      "alternate": [
+        "Pitchy"
+      ],
+      "commands": [
+        "pitchjars",
+        "pitchy"
+      ],
       "sex": null,
       "birth": null,
       "arrival": "2025-03-04",
@@ -1644,7 +1744,9 @@
       "slugKebab": "dewey",
       "name": "Dewey",
       "alternate": [],
-      "commands": ["dewey"],
+      "commands": [
+        "dewey"
+      ],
       "sex": null,
       "birth": null,
       "arrival": "2025-03-04",
@@ -1678,8 +1780,12 @@
       "slug": "butt",
       "slugKebab": "butt",
       "name": "Butt",
-      "alternate": ["Mrs. Butt"],
-      "commands": ["butt"],
+      "alternate": [
+        "Mrs. Butt"
+      ],
+      "commands": [
+        "butt"
+      ],
       "sex": null,
       "birth": null,
       "arrival": "2025-03-04",
@@ -1714,7 +1820,9 @@
       "slugKebab": "stinky",
       "name": "Stinky",
       "alternate": [],
-      "commands": ["stinky"],
+      "commands": [
+        "stinky"
+      ],
       "sex": null,
       "birth": null,
       "arrival": "2025-03-04",
@@ -1747,7 +1855,10 @@
       "slugKebab": "marty-mcfly",
       "name": "Marty McFly",
       "alternate": [],
-      "commands": ["mcfly", "martymcfly"],
+      "commands": [
+        "mcfly",
+        "martymcfly"
+      ],
       "sex": null,
       "birth": null,
       "arrival": "2025-03-04",
@@ -1782,7 +1893,9 @@
       "slugKebab": "drew",
       "name": "Drew",
       "alternate": [],
-      "commands": ["drew"],
+      "commands": [
+        "drew"
+      ],
       "sex": null,
       "birth": null,
       "arrival": "2025-03-04",
