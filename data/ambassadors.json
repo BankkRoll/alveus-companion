@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-06T10:25:00.760Z",
+  "generatedAt": "2026-07-13T09:29:32.089Z",
   "source": "https://github.com/alveusgg/data",
   "ambassadors": [
     {
@@ -531,48 +531,6 @@
       }
     },
     {
-      "slug": "nugget",
-      "slugKebab": "nugget",
-      "name": "Nugget",
-      "alternate": [],
-      "commands": [
-        "nugget"
-      ],
-      "sex": "Female",
-      "birth": "2019",
-      "arrival": "2021-04",
-      "enclosure": "Chicken Coop",
-      "story": "Nugget was rehomed to Alveus because she was bullied by hens in her previous flock.",
-      "mission": "She is an ambassador for the agricultural industry and how people can use consumer choice to impact the environment in a positive way.",
-      "fact": null,
-      "clips": [
-        {
-          "id": "GcPu01J0G-Q",
-          "caption": "Nugget Belongs In A Circus"
-        }
-      ],
-      "homepage": null,
-      "plush": null,
-      "images": [
-        "https://raw.githubusercontent.com/alveusgg/data/main/src/assets/ambassadors/nugget/01.jpg",
-        "https://raw.githubusercontent.com/alveusgg/data/main/src/assets/ambassadors/nugget/02.jpg",
-        "https://raw.githubusercontent.com/alveusgg/data/main/src/assets/ambassadors/nugget/03.jpg"
-      ],
-      "photo": "https://raw.githubusercontent.com/alveusgg/data/main/src/assets/ambassadors/nugget/01.jpg",
-      "species": {
-        "name": "Ameraucana Chicken",
-        "scientificName": "Gallus gallus domesticus",
-        "iucnStatus": "NE",
-        "native": "North America (domesticated)",
-        "class": "aves",
-        "lifespan": {
-          "captivity": 8,
-          "wild": "Not Applicable"
-        },
-        "birth": "egg"
-      }
-    },
-    {
       "slug": "henrique",
       "slugKebab": "henrique",
       "name": "Henrique",
@@ -686,6 +644,42 @@
           "wild": "Not Applicable"
         },
         "birth": "egg"
+      }
+    },
+    {
+      "slug": "kasi",
+      "slugKebab": "kasi",
+      "name": "Kasi",
+      "alternate": [],
+      "commands": [
+        "kasi"
+      ],
+      "sex": "Male",
+      "birth": "2024",
+      "arrival": "2026-04-01",
+      "enclosure": "Serval Enclosure",
+      "story": "Originally purchased as a pet at a Texas flea market, Kasi was then surrendered to another rescue facility before being transferred to Alveus.",
+      "mission": "He is an ambassador for the exotic pet trade and how it affects his species.",
+      "fact": null,
+      "clips": [],
+      "homepage": null,
+      "plush": null,
+      "images": [
+        "https://raw.githubusercontent.com/alveusgg/data/main/src/assets/ambassadors/kasi/01.jpg",
+        "https://raw.githubusercontent.com/alveusgg/data/main/src/assets/ambassadors/kasi/02.jpg"
+      ],
+      "photo": "https://raw.githubusercontent.com/alveusgg/data/main/src/assets/ambassadors/kasi/01.jpg",
+      "species": {
+        "name": "Serval",
+        "scientificName": "Leptailurus serval",
+        "iucnStatus": "LC",
+        "native": "Africa (savannas, grasslands, wetlands)",
+        "class": "mammalia",
+        "lifespan": {
+          "captivity": 20,
+          "wild": 10
+        },
+        "birth": "live"
       }
     },
     {
@@ -1668,42 +1662,6 @@
       }
     },
     {
-      "slug": "kasi",
-      "slugKebab": "kasi",
-      "name": "Kasi",
-      "alternate": [],
-      "commands": [
-        "kasi"
-      ],
-      "sex": "Male",
-      "birth": "2024",
-      "arrival": "2026-04-01",
-      "enclosure": "Serval Enclosure",
-      "story": "Originally purchased as a pet at a Texas flea market, Kasi was then surrendered to another rescue facility before being transferred to Alveus.",
-      "mission": "He is an ambassador for the exotic pet trade and how it affects his species.",
-      "fact": null,
-      "clips": [],
-      "homepage": null,
-      "plush": null,
-      "images": [
-        "https://raw.githubusercontent.com/alveusgg/data/main/src/assets/ambassadors/kasi/01.jpg",
-        "https://raw.githubusercontent.com/alveusgg/data/main/src/assets/ambassadors/kasi/02.jpg"
-      ],
-      "photo": "https://raw.githubusercontent.com/alveusgg/data/main/src/assets/ambassadors/kasi/01.jpg",
-      "species": {
-        "name": "Serval",
-        "scientificName": "Leptailurus serval",
-        "iucnStatus": "LC",
-        "native": "Africa (savannas, grasslands, wetlands)",
-        "class": "mammalia",
-        "lifespan": {
-          "captivity": 20,
-          "wild": 10
-        },
-        "birth": "live"
-      }
-    },
-    {
       "slug": "pitchjars",
       "slugKebab": "pitchjars",
       "name": "PitchJars",
@@ -2076,6 +2034,26 @@
         "scientificName": "Canis lupus x Canis familiaris",
         "iucnStatus": "LC/increasing",
         "class": "mammalia"
+      }
+    },
+    {
+      "slug": "nugget",
+      "slugKebab": "nugget",
+      "name": "Nugget",
+      "retired": "2026-07-09",
+      "enclosure": "Chicken Coop",
+      "mission": "She is an ambassador for the agricultural industry and how people can use consumer choice to impact the environment in a positive way.",
+      "images": [
+        "https://raw.githubusercontent.com/alveusgg/data/main/src/assets/ambassadors/nugget/01.jpg",
+        "https://raw.githubusercontent.com/alveusgg/data/main/src/assets/ambassadors/nugget/02.jpg",
+        "https://raw.githubusercontent.com/alveusgg/data/main/src/assets/ambassadors/nugget/03.jpg"
+      ],
+      "photo": "https://raw.githubusercontent.com/alveusgg/data/main/src/assets/ambassadors/nugget/01.jpg",
+      "species": {
+        "name": "Ameraucana Chicken",
+        "scientificName": "Gallus gallus domesticus",
+        "iucnStatus": "NE",
+        "class": "aves"
       }
     }
   ]
