@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-13T09:29:32.089Z",
+  "generatedAt": "2026-07-20T09:19:14.852Z",
   "source": "https://github.com/alveusgg/data",
   "ambassadors": [
     {
@@ -975,7 +975,7 @@
       "species": {
         "name": "Wolf Hybrid",
         "scientificName": "Canis lupus x Canis familiaris",
-        "iucnStatus": "LC/increasing",
+        "iucnStatus": "LC",
         "native": "Eurasia and North America (forests, inland wetlands, shrublands, grasslands (including Arctic tundra), pastures, deserts, and rocky peaks on mountains)",
         "class": "mammalia",
         "lifespan": {
@@ -1017,7 +1017,7 @@
       "species": {
         "name": "Wolf Hybrid",
         "scientificName": "Canis lupus x Canis familiaris",
-        "iucnStatus": "LC/increasing",
+        "iucnStatus": "LC",
         "native": "Eurasia and North America (forests, inland wetlands, shrublands, grasslands (including Arctic tundra), pastures, deserts, and rocky peaks on mountains)",
         "class": "mammalia",
         "lifespan": {
@@ -1993,7 +1993,7 @@
       "species": {
         "name": "Domestic Rat",
         "scientificName": "Rattus norvegicus f. domestica",
-        "iucnStatus": "NA",
+        "iucnStatus": "LC",
         "class": "mammalia"
       }
     },
@@ -2012,7 +2012,7 @@
       "species": {
         "name": "Domestic Rat",
         "scientificName": "Rattus norvegicus f. domestica",
-        "iucnStatus": "NA",
+        "iucnStatus": "LC",
         "class": "mammalia"
       }
     },
@@ -2032,7 +2032,7 @@
       "species": {
         "name": "Wolf Hybrid",
         "scientificName": "Canis lupus x Canis familiaris",
-        "iucnStatus": "LC/increasing",
+        "iucnStatus": "LC",
         "class": "mammalia"
       }
     },
