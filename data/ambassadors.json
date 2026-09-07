@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-31T12:56:32.152Z",
+  "generatedAt": "2026-09-07T11:47:48.663Z",
   "source": "https://github.com/alveusgg/data",
   "ambassadors": [
     {
@@ -1290,53 +1290,43 @@
       }
     },
     {
-      "slug": "hankMrMctrain",
-      "slugKebab": "hank-mr-mctrain",
-      "name": "Hank Mr. McTrain",
-      "alternate": [
-        "Hank The Tank Choo Choo Mr. McTrain",
-        "Mr. Conductor Man"
-      ],
+      "slug": "toasterStrudel",
+      "slugKebab": "toaster-strudel",
+      "name": "Toaster Strudel",
+      "alternate": [],
       "commands": [
-        "hank"
+        "toast",
+        "toaster"
       ],
-      "sex": "Male",
-      "birth": "2022",
-      "arrival": "2022-01",
-      "enclosure": "Critter Cave",
-      "story": "Our smokey ghost millipede was born in captivity and ethically sourced.",
-      "mission": "He is an ambassador for the importance of invertebrates and the misconceptions they face.",
-      "fact": "Hank, a smokey ghost millipede, is a detritivore who spends a lot of time burrowed in the ground. Having existed on our planet for over 400 million years, the structure of millipede burrows can be differentiated from other burrowing organisms to help identify sediment composition and moisture content in the fossil record, providing us with a better understanding of soil health.",
-      "clips": [
-        {
-          "id": "eUOJbijrsCk",
-          "caption": "Hank Says Hi To Stream"
-        },
-        {
-          "id": "D-KMGuj3NfY",
-          "caption": "Hank Poops While Being Introduced"
-        }
-      ],
+      "sex": null,
+      "birth": "2022-07-04",
+      "arrival": "2022-11",
+      "enclosure": "Reptile Room",
+      "story": "Toaster Strudel was part of an educational program at a zoo and was rehomed to Alveus.",
+      "mission": "They are an ambassador for how human development and invasive species can affect natural habitats and native species.",
+      "fact": "Blue-tongued skinks are aptly named after their blue tongue, which is used in a type of anti-predator behavior called deimatic display. In a species like Toast, deimatic display involves rapid full-tongued movements during an encounter with a predator in hopes that the bright-colored and fast-moving tongue will deter the predator.",
+      "clips": [],
       "homepage": null,
       "plush": null,
       "images": [
-        "https://raw.githubusercontent.com/alveusgg/data/main/src/assets/ambassadors/hankMrMctrain/01.jpg",
-        "https://raw.githubusercontent.com/alveusgg/data/main/src/assets/ambassadors/hankMrMctrain/02.jpg",
-        "https://raw.githubusercontent.com/alveusgg/data/main/src/assets/ambassadors/hankMrMctrain/03.jpg",
-        "https://raw.githubusercontent.com/alveusgg/data/main/src/assets/ambassadors/hankMrMctrain/04.jpg"
+        "https://raw.githubusercontent.com/alveusgg/data/main/src/assets/ambassadors/toasterStrudel/01.jpg",
+        "https://raw.githubusercontent.com/alveusgg/data/main/src/assets/ambassadors/toasterStrudel/02.jpg",
+        "https://raw.githubusercontent.com/alveusgg/data/main/src/assets/ambassadors/toasterStrudel/03.jpg",
+        "https://raw.githubusercontent.com/alveusgg/data/main/src/assets/ambassadors/toasterStrudel/04.jpg",
+        "https://raw.githubusercontent.com/alveusgg/data/main/src/assets/ambassadors/toasterStrudel/05.jpg"
       ],
-      "photo": "https://raw.githubusercontent.com/alveusgg/data/main/src/assets/ambassadors/hankMrMctrain/01.jpg",
+      "photo": "https://raw.githubusercontent.com/alveusgg/data/main/src/assets/ambassadors/toasterStrudel/01.jpg",
       "species": {
-        "name": "Smokey Ghost Millipede",
-        "scientificName": "Narceus gordanus",
-        "iucnStatus": "NE",
-        "native": "Eastern United States",
-        "class": "diplopoda",
+        "name": "Blue-tongued Skink",
+        "scientificName": "Tiliqua scincoides intermedia",
+        "iucnStatus": "LC",
+        "native": "Australia",
+        "class": "reptilia",
         "lifespan": {
-          "captivity": 11,
+          "captivity": 20,
           "wild": "Unknown"
         },
-        "birth": "egg"
+        "birth": "live"
       }
     },
     {
@@ -1619,46 +1609,6 @@
           "wild": "Unknown"
         },
         "birth": "egg"
-      }
-    },
-    {
-      "slug": "toasterStrudel",
-      "slugKebab": "toaster-strudel",
-      "name": "Toaster Strudel",
-      "alternate": [],
-      "commands": [
-        "toast",
-        "toaster"
-      ],
-      "sex": null,
-      "birth": "2022-07-04",
-      "arrival": "2022-11",
-      "enclosure": "Reptile Room",
-      "story": "Toaster Strudel was part of an educational program at a zoo and was rehomed to Alveus.",
-      "mission": "They are an ambassador for how human development and invasive species can affect natural habitats and native species.",
-      "fact": "Blue-tongued skinks are aptly named after their blue tongue, which is used in a type of anti-predator behavior called deimatic display. In a species like Toast, deimatic display involves rapid full-tongued movements during an encounter with a predator in hopes that the bright-colored and fast-moving tongue will deter the predator.",
-      "clips": [],
-      "homepage": null,
-      "plush": null,
-      "images": [
-        "https://raw.githubusercontent.com/alveusgg/data/main/src/assets/ambassadors/toasterStrudel/01.jpg",
-        "https://raw.githubusercontent.com/alveusgg/data/main/src/assets/ambassadors/toasterStrudel/02.jpg",
-        "https://raw.githubusercontent.com/alveusgg/data/main/src/assets/ambassadors/toasterStrudel/03.jpg",
-        "https://raw.githubusercontent.com/alveusgg/data/main/src/assets/ambassadors/toasterStrudel/04.jpg",
-        "https://raw.githubusercontent.com/alveusgg/data/main/src/assets/ambassadors/toasterStrudel/05.jpg"
-      ],
-      "photo": "https://raw.githubusercontent.com/alveusgg/data/main/src/assets/ambassadors/toasterStrudel/01.jpg",
-      "species": {
-        "name": "Blue-tongued Skink",
-        "scientificName": "Tiliqua scincoides intermedia",
-        "iucnStatus": "LC",
-        "native": "Australia",
-        "class": "reptilia",
-        "lifespan": {
-          "captivity": 20,
-          "wild": "Unknown"
-        },
-        "birth": "live"
       }
     },
     {
@@ -2054,6 +2004,27 @@
         "scientificName": "Gallus gallus domesticus",
         "iucnStatus": "NE",
         "class": "aves"
+      }
+    },
+    {
+      "slug": "hankMrMctrain",
+      "slugKebab": "hank-mr-mctrain",
+      "name": "Hank Mr. McTrain",
+      "retired": "2026-08-30",
+      "enclosure": "Critter Cave",
+      "mission": "He is an ambassador for the importance of invertebrates and the misconceptions they face.",
+      "images": [
+        "https://raw.githubusercontent.com/alveusgg/data/main/src/assets/ambassadors/hankMrMctrain/01.jpg",
+        "https://raw.githubusercontent.com/alveusgg/data/main/src/assets/ambassadors/hankMrMctrain/02.jpg",
+        "https://raw.githubusercontent.com/alveusgg/data/main/src/assets/ambassadors/hankMrMctrain/03.jpg",
+        "https://raw.githubusercontent.com/alveusgg/data/main/src/assets/ambassadors/hankMrMctrain/04.jpg"
+      ],
+      "photo": "https://raw.githubusercontent.com/alveusgg/data/main/src/assets/ambassadors/hankMrMctrain/01.jpg",
+      "species": {
+        "name": "Smokey Ghost Millipede",
+        "scientificName": "Narceus gordanus",
+        "iucnStatus": "NE",
+        "class": "diplopoda"
       }
     }
   ]
