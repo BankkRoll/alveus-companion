@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-21T12:12:34.421Z",
+  "generatedAt": "2026-09-28T13:08:24.396Z",
   "source": "https://github.com/alveusgg/data",
   "ambassadors": [
     {
@@ -1299,7 +1299,7 @@
         "marty"
       ],
       "sex": null,
-      "birth": "2022",
+      "birth": null,
       "arrival": "2022-01",
       "enclosure": "Critter Cave",
       "story": "Our zebra isopods were born in captivity and ethically sourced.",
@@ -1342,7 +1342,7 @@
         "bonusbug"
       ],
       "sex": null,
-      "birth": "2022",
+      "birth": null,
       "arrival": "2022-01",
       "enclosure": "Critter Cave",
       "story": "Our spanish orange isopods were born in captivity and ethically sourced.",
@@ -1544,7 +1544,7 @@
         "bakedbean"
       ],
       "sex": null,
-      "birth": "2022",
+      "birth": null,
       "arrival": "2022-01",
       "enclosure": "Critter Cave",
       "story": "Our cockroach colony was started with 7 roaches that were part of an educational colony at a school in Pennsylvania.",
